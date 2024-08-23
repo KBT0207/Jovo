@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "busy"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pillow = "^10.4.0"
+openpyxl = "^3.1.5"
+xlsxwriter = "^3.2.0"
+pyautogui = "^0.9.54"
+opencv-python = "^4.10.0.84"
+python-dotenv = "^1.0.1"
+yagmail = "^0.15.293"
+logtail = "^1.0.1"
+loguru = "^0.7.2"
+logtail-python = "^0.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
