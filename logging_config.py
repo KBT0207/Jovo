@@ -3,13 +3,12 @@ import logging.config
 from logging.handlers import TimedRotatingFileHandler
 import os
 from datetime import datetime
-from logtail import LogtailHandler
+from logtail import LogtailHandler  # Adjust this import if necessary
 from dotenv import load_dotenv
 
 log_dir = 'logs'
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
-
 
 # Load environment variables from .env file
 load_dotenv(".env")
@@ -31,17 +30,15 @@ LOGGING_CONFIG = {
             'formatter': 'standard',
             'level': 'DEBUG'
         },
-
         'file_handler': {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': f'logs/main_{today_date}.log',
-            'when': 'midnight', 
+            'when': 'midnight',
             'interval': 1,
             'backupCount': 30,
             'formatter': 'standard'
         },
-
-        'better_stack_handler': {
+        'logtail_handler': {
             'class': 'logtail.LogtailHandler',
             'formatter': 'standard',
             'level': 'DEBUG',
@@ -52,8 +49,8 @@ LOGGING_CONFIG = {
         '': {
             'handlers': [
                 'console_handler',
-                'file_handler', 
-                'better_stack_handler',
+                'file_handler',
+                'logtail_handler',
             ],
             'level': 'DEBUG',
             'propagate': False
@@ -66,4 +63,3 @@ logging.config.dictConfig(LOGGING_CONFIG)
 
 # Create a logger instance
 logger = logging.getLogger("main")
-

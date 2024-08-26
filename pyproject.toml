@@ -16,6 +16,10 @@ python-dotenv = "^1.0.1"
 yagmail = "^0.15.293"
 logtail = "^1.0.1"
 loguru = "^0.7.2"
+sqlalchemy = "^2.0.32"
+mysql-connector-python = "^9.0.0"
+pymysql = "^1.1.1"
+pandas = "^2.2.2"
 logtail-python = "^0.3.0"
 
 

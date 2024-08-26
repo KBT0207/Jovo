@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime,timedelta,date
 from logging_config import logger
+import test
 
 logger.info("Starting the automation script")
 
@@ -15,7 +16,7 @@ start_date = date(current_date.year, 4, 1)
 start_date = start_date.strftime('%d-%m-%Y')
 today_date = current_date.strftime('%d-%m-%Y')
 
-comp_list = ['COMP0003']
+comp_list = ['COMP0003','COMP0007']
 
 def open_busy():
     logger.info(f"Busy Opening.... {open_busy}")
@@ -252,7 +253,7 @@ def formate_vch():
     time.sleep(1)
     pg.press('f2')
             
-def export_data(report):
+def export_data(report:str, comp:str):
     loc = None
     while loc == None:
         try:
@@ -273,10 +274,11 @@ def export_data(report):
     time.sleep(1)
     pg.press('enter')
 
-    base_dir = r'D:\Busy'  #Base Directory 
-    busy_export_data_dir = os.path.join(base_dir, 'busy_export_data', today_date) #join path
-    os.makedirs(busy_export_data_dir, exist_ok=True) #folder creations
-    report_path = os.path.join(busy_export_data_dir, f'{report}_{today_date}.xlsx') # report path
+    base_dir = r'D:\UserProfile\Desktop\data'
+    busy_export_data_dir = os.path.join(base_dir, 'busy_export_data', comp)
+    date_dir = os.path.join(busy_export_data_dir, today_date, report)
+    os.makedirs(date_dir, exist_ok=True)
+    report_path = os.path.join(date_dir, f'{comp}_{report}_{today_date}.xlsx')
 
     pg.typewrite(report_path, interval=0.3)
     time.sleep(1)
@@ -338,17 +340,23 @@ def change_company():
             time.sleep(1)
 
 
-l1 = {'purchase':purchase,'purchase_order':purchase_order}
+l1 = {'purchase':purchase,'purchase-order':purchase_order}
 
 def main():
     open_busy()
+    time.sleep(5)
     for i in comp_list:
         company_open(comp=i)
         transaction_tab()
         for report,method in l1.items():
             method()
             formate_vch()
-            export_data(report)
+            export_data(report,comp=i)
+            root_folder_path = rf"D:\UserProfile\Desktop\data\busy_export_data\{i}\{today_date}"
+            processor = test.DataProcessor(root_folder_path)
+            processor.truncate_all_tables()
+            processor.process_files()
+            change_company()
 
 
 
