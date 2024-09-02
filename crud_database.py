@@ -6,6 +6,10 @@ from database.connection import engine
 from database.models.base import Model
 from database.models.busy_models import * 
 from logging_config import logger
+from datetime import date
+
+
+end_date = date.today().strftime("%d-%m-%Y")
 
 Model.metadata.create_all(bind=engine)
 
@@ -60,18 +64,20 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
 def get_table_name(report_type: str) -> str:
     table_name = {
-        "purchase": "busy_purchase",
-        "purchase-order": "busy_purchase_order"
+        "purchase": "busy_rm_purchase",
+        "purchase-order": "busy_rm_purchase_order",
+        'mitp': 'busy_rm_mitp',
+        'mrfp': 'busy_rm_mrfp'
     }
     return table_name.get(report_type, "Key not found")
 
 def process_files(root_folder: str):
-    full_pattern = os.path.join(root_folder, '**', '*.xlsx')
+    full_pattern = os.path.join(root_folder, "**", f"*{end_date}.xlsx")
     
     for file_path in glob.glob(full_pattern, recursive=True):
         try:
             report_type = get_report_type(file_path)
-            if report_type in ['purchase', 'purchase-order']:
+            if report_type in ['purchase', 'purchase-order','mrfp','mitp']:
                 logger.info(f"Processing file: {file_path}")
                 df = pd.read_excel(file_path, skiprows=3,skipfooter=1)
                 df = clean_data(df)
@@ -92,7 +98,6 @@ def process_files(root_folder: str):
 
 if __name__ == "__main__":
     truncate_all_tables()
-    root_folder_path = r"D:\UserProfile\Desktop\data"
-    process_files(root_folder_path)
-    
+    # root_folder_path = r"D:\UserProfile\Desktop\data"
+    # process_files(root_folder_path)
     

@@ -4,23 +4,21 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime,timedelta,date
 from logging_config import logger
-import test
 
 logger.info("Starting the automation script")
 
 load_dotenv(".env")
 
 current_date = datetime.now().date()
-start_date = date(current_date.year, 4, 1)
-
-start_date = start_date.strftime('%d-%m-%Y')
+start_date = datetime(current_date.year, 4, 1).strftime('%d-%m-%Y')
 today_date = current_date.strftime('%d-%m-%Y')
 
-comp_list = ['COMP0003','COMP0007']
+
+comp_list = ['COMP0003']
 
 def open_busy():
-    logger.info(f"Busy Opening.... {open_busy}")
-    busy_url = r"D:\UserProfile\Desktop\Busy 21.lnk"
+    logger.info(f"Busy Opening....")
+    busy_url = r"D:/UserProfile/Desktop/Busy 21.lnk"
     pg.hotkey('win', 'r')
     time.sleep(1)
     pg.typewrite(busy_url)
@@ -30,7 +28,7 @@ def open_busy():
     security_check = None
     while security_check == None:
         try:
-            security_check = pg.locateOnScreen(r'D:\Busy\img\security_check.png', confidence=0.9)
+            security_check = pg.locateOnScreen('img/security_check.png', confidence=0.9)
             time.sleep(1)
             pg.press('enter')
             time.sleep(1)
@@ -40,7 +38,7 @@ def open_busy():
     open_comapny = None
     while open_comapny == None:
         try:
-            open_comapny = pg.locateOnScreen(r'D:\Busy\img\open_company.png', confidence=0.9)
+            open_comapny = pg.locateOnScreen('img/open_company.png', confidence=0.9)
             pg.press('enter')
         except:
             time.sleep(3)
@@ -48,7 +46,7 @@ def open_busy():
     select_comapny = None
     while select_comapny == None:
         try:
-            select_comapny = pg.locateOnScreen(r'D:\Busy\img\comapny_list.png',confidence=0.9)
+            select_comapny = pg.locateOnScreen('img/comapny_list.png',confidence=0.9)
         except:
             time.sleep(3)
     logger.info("Busy Open Succsesfully")
@@ -59,31 +57,31 @@ def company_open(comp):
     pg.press('tab')
     time.sleep(1)
     pg.press('enter')
-    logger.info(f"Open {comp} Succsessfully ")
+    logger.info(f"Open Company {comp} Succsessfully ")
 
     user_pass = None
     while user_pass == None:
         try:
-            user_pass = pg.locateOnScreen(r'D:\Busy\img\user_pass.png',confidence=0.9)
+            user_pass = pg.locateOnScreen('img/user_pass.png',confidence=0.9)
             time.sleep(1)
         except:
             time.sleep(1)
 
 
 
-    pg.typewrite(os.getenv("busy_user"),interval=1)
+    pg.typewrite(os.getenv("busy_user"),interval=0.1)
     time.sleep(1)  
     pg.press('enter')
     time.sleep(1)
-    pg.typewrite(os.getenv('busy_pass'),interval=1)  
+    pg.typewrite(os.getenv('busy_pass'),interval=0.1)  
     time.sleep(1)
     pg.press('f2')
   
     open_dashboard = None
     while open_dashboard == None:
         try:
-            open_dashboard = pg.locateOnScreen(r'D:\Busy\img\open_dashboard.png',confidence=0.9)
-            logger.info(f'Succsesfully Logged In{comp}')
+            open_dashboard = pg.locateOnScreen('img/open_dashboard.png',confidence=0.9)
+            logger.info(f'Succsesfully Logged In {comp}')
         except:
             time.sleep(3)
 
@@ -91,7 +89,7 @@ def transaction_tab():
     transaction = None
     while transaction == None:
         try:
-            transaction = pg.locateOnScreen(r'D:\Busy\img\transaction.png',confidence=0.9)
+            transaction = pg.locateOnScreen('img/transaction.png',confidence=0.9)
             time.sleep(1)
             pg.moveTo(transaction,duration=0.2)
             time.sleep(1)
@@ -111,7 +109,7 @@ def list_voucher_wait(image_path):
 
 def purchase():
     try:
-        purchase= pg.locateOnScreen(r'D:\Busy\img\purchase_unselected.png',confidence=0.9)
+        purchase= pg.locateOnScreen('img/purchase_unselected.png',confidence=0.9)
         pg.moveTo(purchase)
         time.sleep(1)
         pg.click(purchase)
@@ -122,7 +120,7 @@ def purchase():
         logger.info('Purchase Vch Open Succsesfully')
     except:
         try:
-            pg.locateOnScreen(r'D:\Busy\img\purchase_sel.png',confidence=0.9)
+            pg.locateOnScreen('img/purchase_sel.png',confidence=0.9)
             pg.moveTo()
             time.sleep(1)
             pg.click()
@@ -133,7 +131,7 @@ def purchase():
             logger.info('Purchase Vch Open Succsesfully')
         except:
             try:
-                pg.locateOnScreen(r'D:\Busy\img\purchase_sel_down.png',confidence=0.9)
+                pg.locateOnScreen('img/purchase_sel_down.png',confidence=0.9)
                 pg.moveTo()
                 time.sleep(1)
                 pg.doubleClick()
@@ -144,7 +142,7 @@ def purchase():
                 logger.info('Purchase Vch Open Succsesfully')
             except:
                 try:
-                    pg.locateOnScreen(r'D:\Busy\img\purchase_unsel_down.png',confidence=0.9)
+                    pg.locateOnScreen('img/purchase_unsel_down.png',confidence=0.9)
                     pg.moveTo()
                     time.sleep(1)
                     pg.doubleClick()
@@ -159,7 +157,7 @@ def purchase():
 
 def purchase_order():
     try:
-        purchase_order = pg.locateOnScreen(r'D:\Busy\img\po_unselected.png',confidence=0.9)
+        purchase_order = pg.locateOnScreen('img/po_unselected.png',confidence=0.9)
         pg.moveTo(purchase_order)
         time.sleep(1)
         pg.click(purchase_order)
@@ -170,7 +168,7 @@ def purchase_order():
         logger.info('Purchase Order Vch Open Succsesfully')
     except:
         try:
-            pg.locateOnScreen(r'D:\Busy\img\po_selected.png',confidence=0.9)
+            pg.locateOnScreen('img/po_selected.png',confidence=0.9)
             pg.moveTo()
             time.sleep(1)
             pg.click()
@@ -181,7 +179,7 @@ def purchase_order():
             logger.info('Purchase Order Vch Open Succsesfully')
         except:
             try:
-                pg.locateOnScreen(r'D:\Busy\img\po_unselected.png',confidence=0.9)
+                pg.locateOnScreen('img/po_unselected.png',confidence=0.9)
                 pg.moveTo()
                 time.sleep(1)
                 pg.doubleClick()
@@ -192,7 +190,7 @@ def purchase_order():
                 logger.info('Purchase Order Vch Open Succsesfully')
             except:
                 try:
-                    pg.locateOnScreen(r'D:\Busy\img\po_unselected_down.png',confidence=0.9)
+                    pg.locateOnScreen('img/po_unselected_down.png',confidence=0.9)
                     pg.moveTo()
                     time.sleep(1)
                     pg.doubleClick()
@@ -205,8 +203,104 @@ def purchase_order():
                     logger.info('Purchase Order Vch Error ')
                     pass
 
-def formate_vch():
-    list_voucher_wait(r'D:\Busy\img\list_of.png')
+def mrfp_voucher():
+    try:
+        purchase_order = pg.locateOnScreen('img/mrfp_unselected.png',confidence=0.9)
+        pg.moveTo(purchase_order)
+        time.sleep(1)
+        pg.click(purchase_order)
+        time.sleep(1)
+        pg.press('l')
+        time.sleep(1)
+        pg.press('enter')
+        logger.info('MRFP Vch Open Succsesfully')
+    except:
+        try:
+            pg.locateOnScreen('img/mrfp_unselected_down.png',confidence=0.9)
+            pg.moveTo()
+            time.sleep(1)
+            pg.click()
+            time.sleep(1)
+            pg.press('l')
+            time.sleep(1)
+            pg.press('enter')
+            logger.info('MRFP Vch Open Succsesfully')
+        except:
+            try:
+                pg.locateOnScreen('img/mrfp_selected.png',confidence=0.9)
+                pg.moveTo()
+                time.sleep(1)
+                pg.doubleClick()
+                time.sleep(1)
+                pg.press('l')
+                time.sleep(1)
+                pg.press('enter')
+                logger.info('MRFP Vch Open Succsesfully')
+            except:
+                try:
+                    pg.locateOnScreen('img/mrfp_sel_down.png',confidence=0.9)
+                    pg.moveTo()
+                    time.sleep(1)
+                    pg.doubleClick()
+                    time.sleep(1)
+                    pg.press('l')
+                    time.sleep(1)
+                    pg.press('enter')
+                    logger.info('MRFP Vch Open Succsesfully')
+                except:
+                    logger.info('MRFP Vch Error ')
+                    pass
+
+def mitp_voucher():
+    try:
+        mitp = pg.locateOnScreen('img/mitp_unselected.png',confidence=0.9)
+        pg.moveTo(mitp)
+        time.sleep(1)
+        pg.click(mitp)
+        time.sleep(1)
+        pg.press('l')
+        time.sleep(1)
+        pg.press('enter')
+        logger.info('MITP Vch Open Succsesfully')
+    except:
+        try:
+            pg.locateOnScreen('img/mitp_selected.png',confidence=0.9)
+            pg.moveTo()
+            time.sleep(1)
+            pg.click()
+            time.sleep(1)
+            pg.press('l')
+            time.sleep(1)
+            pg.press('enter')
+            logger.info('MRFP Vch Open Succsesfully')
+        except:
+            try:
+                pg.locateOnScreen('img/mitp_unselected_down.png',confidence=0.9)
+                pg.moveTo()
+                time.sleep(1)
+                pg.doubleClick()
+                time.sleep(1)
+                pg.press('l')
+                time.sleep(1)
+                pg.press('enter')
+                logger.info('MRFP Vch Open Succsesfully')
+            except:
+                try:
+                    pg.locateOnScreen('img/mitp_sel_down.png',confidence=0.9)
+                    pg.moveTo()
+                    time.sleep(1)
+                    pg.doubleClick()
+                    time.sleep(1)
+                    pg.press('l')
+                    time.sleep(1)
+                    pg.press('enter')
+                    logger.info('MITP Vch Open Succsesfully')
+                except:
+                    logger.info('MITP Vch Error ')
+                    pass
+
+def formate_vch(start_date:str, end_date:str,report_type: str = None):
+    list_voucher_wait('img/list_of.png')
     time.sleep(1)
     pg.typewrite('New',interval=0.1)   #Formate Select
     time.sleep(0.5) 
@@ -225,7 +319,7 @@ def formate_vch():
     pg.typewrite(start_date)
     time.sleep(1)
     pg.press('enter')
-    pg.typewrite(today_date)
+    pg.typewrite(end_date)
     time.sleep(1)
     pg.press('enter')
     time.sleep(1)
@@ -253,11 +347,11 @@ def formate_vch():
     time.sleep(1)
     pg.press('f2')
             
-def export_data(report:str, comp:str):
+def export_data(report:str, comp:str,start_date:str, end_date:str,today_date:str):
     loc = None
     while loc == None:
         try:
-            loc = pg.locateOnScreen(r'img/data_complete100%.png',confidence=0.9)
+            loc = pg.locateOnScreen('img/data_complete100%.png',confidence=0.9)
         except:
             time.sleep(1)
 
@@ -266,7 +360,7 @@ def export_data(report:str, comp:str):
     export_data = None
     while export_data == None:
         try:
-            export_data = pg.locateOnScreen(r'D:\Busy\img\export_Report_data.png',confidence=0.9)
+            export_data = pg.locateOnScreen('img/export_Report_data.png',confidence=0.9)
         except:
             time.sleep(1)
 
@@ -274,11 +368,11 @@ def export_data(report:str, comp:str):
     time.sleep(1)
     pg.press('enter')
 
-    base_dir = r'D:\UserProfile\Desktop\data'
+    base_dir = r"D:/UserProfile/Desktop/data"
     busy_export_data_dir = os.path.join(base_dir, 'busy_export_data', comp)
-    date_dir = os.path.join(busy_export_data_dir, today_date, report)
+    date_dir = os.path.join(busy_export_data_dir,report)
     os.makedirs(date_dir, exist_ok=True)
-    report_path = os.path.join(date_dir, f'{comp}_{report}_{today_date}.xlsx')
+    report_path = os.path.join(date_dir, f'{comp}_{report}_{start_date} to {end_date} {today_date}.xlsx')
 
     pg.typewrite(report_path, interval=0.3)
     time.sleep(1)
@@ -286,13 +380,13 @@ def export_data(report:str, comp:str):
     time.sleep(1)
     pg.press('f2')
     time.sleep(2)
-    logger.info(f"{report} Data Exporting.. {today_date}")
+    logger.info(f"{report} Data Exporting.. {start_date} to {end_date}")
     try:
-        overwrite = pg.locateOnScreen(r'D:\Busy\img\file_exits.png',confidence=0.9)
+        overwrite = pg.locateOnScreen('img/file_exits.png',confidence=0.9)
         if overwrite:
             time.sleep(1)
             pg.click(overwrite)
-            logger.info(f"{report} Overwrite Data Exporting.. {today_date}")
+            logger.info(f"{report} Overwrite Data Exporting.. {start_date} to {end_date}")
     except:
         pass
 
@@ -300,20 +394,21 @@ def export_data(report:str, comp:str):
     export = None
     while export == None:
         try:
-            export = pg.locateOnScreen(r'D:\Busy\img\exported_completed.png',confidence=0.9)
+            export = pg.locateOnScreen('img/exported_completed.png',confidence=0.9)
             pg.press('n')
             time.sleep(1)
             pg.press('esc')
-            logger.info(f'{report} Succsesfully Exported {today_date}')
+            logger.info(f'{report} Succsesfully Exported {start_date} to {end_date}')
         except:
             time.sleep(1)
     pg.press('esc',presses=3,interval=1)
     
 def change_company():
+
     comp = None
     while comp == None:
         try:
-            comp = pg.locateOnScreen(r'D:\Busy\img\close_comapny.png',confidence=0.9)
+            comp = pg.locateOnScreen('img/close_comapny.png', confidence=0.9)
             if comp:
                 time.sleep(1)
                 pg.press('y')
@@ -324,40 +419,35 @@ def change_company():
     open_comp = None
     while open_comp == None:
         try:
-            open_comp = pg.locateOnScreen(r'D:\Busy\img\open_company.png',confidence=0.9) 
             time.sleep(1)
+            open_comp = pg.locateOnScreen('img/open_company.png', confidence=0.9) 
             pg.press('enter')
         except:
-            time.sleep(1)
             pg.press('down')
 
     comp_list = None
     while comp_list == None:
         try:
-            comp_list = pg.locateOnScreen(r'D:\Busy\img\comapny_list.png',confidence=0.9)
-            time.sleep(1)
+            comp_list = pg.locateOnScreen('img/comapny_list.png', confidence=0.9)
         except:
-            time.sleep(1)
+            time.sleep(0.5)
 
-
-l1 = {'purchase':purchase,'purchase-order':purchase_order}
+l1 = {'purchase-order': purchase_order, 'purchase': purchase, 'mrfp': mrfp_voucher, 'mitp':mitp_voucher}
 
 def main():
     open_busy()
-    time.sleep(5)
     for i in comp_list:
         company_open(comp=i)
         transaction_tab()
-        for report,method in l1.items():
-            method()
-            formate_vch()
-            export_data(report,comp=i)
-            root_folder_path = rf"D:\UserProfile\Desktop\data\busy_export_data\{i}\{today_date}"
-            processor = test.DataProcessor(root_folder_path)
-            processor.truncate_all_tables()
-            processor.process_files()
-            change_company()
-
-
+        for report, method in l1.items():
+            if callable (method):
+                try:
+                    method()
+                    formate_vch(start_date,today_date)
+                    export_data(start_date=start_date,end_date=today_date,report=report,comp=i,today_date=today_date)
+                except Exception as e:
+                    print(f"Error processing {report} for company {i}: {e}")
+                    continue
+        change_company()
 
 main()
