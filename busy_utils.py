@@ -2,7 +2,7 @@ import pyautogui as pg
 import time
 import os
 from dotenv import load_dotenv
-from datetime import datetime,timedelta,date
+from datetime import datetime
 from logging_config import logger
 
 logger.info("Starting the automation script")
@@ -299,6 +299,57 @@ def mitp_voucher():
                     logger.info('MITP Vch Error ')
                     pass
 
+def stock_transfer():
+    try:
+        stck = pg.locateOnScreen('img/stck_unselected.png',confidence=0.9)
+        pg.moveTo(stck)
+        time.sleep(1)
+        pg.click(stck)
+        time.sleep(1)
+        pg.press('l')
+        time.sleep(1)
+        pg.press('enter')
+        logger.info('StockTransfer Vch Open Succsesfully')
+    except:
+        try:
+            pg.locateOnScreen('img/stck_selected.png',confidence=0.9)
+            pg.moveTo()
+            time.sleep(1)
+            pg.click()
+            time.sleep(1)
+            pg.press('l')
+            time.sleep(1)
+            pg.press('enter')
+            logger.info('StockTransfer Vch Open Succsesfully')
+        except:
+            try:
+                pg.locateOnScreen('img/stck_sel_down.png',confidence=0.9)
+                pg.moveTo()
+                time.sleep(1)
+                pg.doubleClick()
+                time.sleep(1)
+                pg.press('l')
+                time.sleep(1)
+                pg.press('enter')
+                logger.info('StockTransfer Vch Open Succsesfully')
+            except:
+                try:
+                    unselected = pg.locateOnScreen('img/stck_unselected_down.png',confidence=0.9)
+                    print(unselected)
+                    pg.moveTo(unselected)
+                    # time.sleep(1)
+                    pg.click(unselected)
+                    time.sleep(1)
+                    pg.click(unselected)
+                    time.sleep(1)
+                    pg.press('l')
+                    time.sleep(1)
+                    pg.press('enter')
+                    logger.info('Stcok Vch Open Succsesfully')
+                except:
+                    logger.info('StockTransfer Vch Error ')
+                    pass
+
 def formate_vch(start_date:str, end_date:str,report_type: str = None):
     list_voucher_wait('img/list_of.png')
     time.sleep(1)
@@ -432,7 +483,7 @@ def change_company():
         except:
             time.sleep(0.5)
 
-l1 = {'purchase-order': purchase_order, 'purchase': purchase, 'mrfp': mrfp_voucher, 'mitp':mitp_voucher}
+l1 = {'purchase-order': purchase_order, 'purchase': purchase, 'mrfp': mrfp_voucher, 'mitp':mitp_voucher,"stck":stock_transfer}
 
 def main():
     open_busy()
@@ -449,5 +500,5 @@ def main():
                     print(f"Error processing {report} for company {i}: {e}")
                     continue
         change_company()
-
+        
 main()

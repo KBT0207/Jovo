@@ -7,6 +7,7 @@ from database.models.base import Model
 from database.models.busy_models import * 
 from logging_config import logger
 from datetime import date
+from datetime import timedelta
 
 
 end_date = date.today().strftime("%d-%m-%Y")
@@ -96,8 +97,14 @@ def process_files(root_folder: str):
         except Exception as e:
             logger.error(f"Error processing file {file_path}: {e}")
 
-if __name__ == "__main__":
-    truncate_all_tables()
-    # root_folder_path = r"D:\UserProfile\Desktop\data"
-    # process_files(root_folder_path)
+def delete_table_data(start_date:str , end_date:str,table_name:str):
+    pass
+
+
+
+
+process_files(r"D:\UserProfile\Desktop\data")
+
+
+    
     

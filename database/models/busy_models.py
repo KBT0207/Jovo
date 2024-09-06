@@ -66,6 +66,9 @@ class BusyMrfp(TimeStampedModel):
     qty = Column(Numeric(10, 2))
     unit = Column(String(5))
     batch_no = Column(String(50))
+    narration = Column(String(255))
+    gr_no = Column(String(50))
+    gr_date = Column(Date)
     price = Column(Numeric(10,2))
     amount = Column(Numeric(10, 2))
 
@@ -75,4 +78,29 @@ class BusyMrfp(TimeStampedModel):
             f"particulars='{self.particulars}', item_details='{self.item_details}', "
             f"material_centre='{self.material_centre}', qty={self.qty}, unit='{self.unit}', "
             f"batch_no='{self.batch_no}', price={self.price}, amount={self.amount})>"
-            )
+        )
+
+class BusyMitp(TimeStampedModel):
+    __tablename__ = 'busy_rm_mitp'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    date = Column(Date)
+    vch_bill_no = Column(String(50))
+    particulars = Column(String(255))
+    item_details = Column(String(255))
+    material_centre = Column(String(100))
+    qty = Column(Numeric(10, 2))
+    unit = Column(String(5))
+    batch_no = Column(String(50))
+    price = Column(Numeric(10,2))
+    amount = Column(Numeric(10, 2))
+
+
+    def __repr__(self):
+        return (
+        f"<BusyMrfp(id={self.id}, date={self.date}, vch_bill_no='{self.vch_bill_no}', "
+        f"particulars='{self.particulars}', item_details='{self.item_details}', "
+        f"material_centre='{self.material_centre}', qty={self.qty}, unit='{self.unit}', "
+        f"batch_no='{self.batch_no}', price={self.price}, amount={self.amount})>"
+        )
+
