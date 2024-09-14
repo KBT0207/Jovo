@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 from logging_config import logger
+from crud_database import process_files
 
 logger.info("Starting the automation script")
 
@@ -350,6 +351,57 @@ def stock_transfer():
                     logger.info('StockTransfer Vch Error ')
                     pass
 
+def stock_jornal():
+    try:
+        stj = pg.locateOnScreen('img/stj_unselected.png',confidence=0.9)
+        pg.moveTo(stj)
+        time.sleep(1)
+        pg.click(stj)
+        time.sleep(1)
+        pg.press('l')
+        time.sleep(1)
+        pg.press('enter')
+        logger.info('StockJornal Vch Open Succsesfully')
+    except:
+        try:
+            pg.locateOnScreen('img/stj_selected.png',confidence=0.9)
+            pg.moveTo()
+            time.sleep(1)
+            pg.click()
+            time.sleep(1)
+            pg.press('l')
+            time.sleep(1)
+            pg.press('enter')
+            logger.info('StockJornal Vch Open Succsesfully')
+        except:
+            try:
+                pg.locateOnScreen('img/stj_unselected_down.png',confidence=0.9)
+                pg.moveTo()
+                time.sleep(1)
+                pg.doubleClick()
+                time.sleep(1)
+                pg.press('l')
+                time.sleep(1)
+                pg.press('enter')
+                logger.info('StockJornal Vch Open Succsesfully')
+            except:
+                try:
+                    unselected = pg.locateOnScreen('img/stj_unselected.png',confidence=0.9)
+                    print(unselected)
+                    pg.moveTo(unselected)
+                    # time.sleep(1)
+                    pg.click(unselected)
+                    time.sleep(1)
+                    pg.click(unselected)
+                    time.sleep(1)
+                    pg.press('l')
+                    time.sleep(1)
+                    pg.press('enter')
+                    logger.info('Stcok Jornal Open Succsesfully')
+                except:
+                    logger.info('StockJournal Vch Error ')
+                    pass
+
 def formate_vch(start_date:str, end_date:str,report_type: str = None):
     list_voucher_wait('img/list_of.png')
     time.sleep(1)
@@ -397,7 +449,7 @@ def formate_vch(start_date:str, end_date:str,report_type: str = None):
     pg.press('n')
     time.sleep(1)
     pg.press('f2')
-            
+                
 def export_data(report:str, comp:str,start_date:str, end_date:str,today_date:str):
     loc = None
     while loc == None:
@@ -483,7 +535,7 @@ def change_company():
         except:
             time.sleep(0.5)
 
-l1 = {'purchase-order': purchase_order, 'purchase': purchase, 'mrfp': mrfp_voucher, 'mitp':mitp_voucher,"stck":stock_transfer}
+l1 = {'purchase-order': purchase_order, 'purchase': purchase, 'mrfp': mrfp_voucher, 'mitp':mitp_voucher,"stock_transfer":stock_transfer,'stock_jornal':stock_jornal}
 
 def main():
     open_busy()
@@ -494,11 +546,13 @@ def main():
             if callable (method):
                 try:
                     method()
-                    formate_vch(start_date,today_date)
+                    formate_vch(start_date,today_date,report_type=report)
                     export_data(start_date=start_date,end_date=today_date,report=report,comp=i,today_date=today_date)
                 except Exception as e:
                     print(f"Error processing {report} for company {i}: {e}")
                     continue
         change_company()
+    process_files(r"D:\UserProfile\Desktop\data")
         
 main()
+
