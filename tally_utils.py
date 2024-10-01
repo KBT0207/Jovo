@@ -42,26 +42,27 @@ def display_vch():
     pg.press('a')
     wait_img_path('img_tally/account_book.png')
 
-import pyautogui as pg
-import time
+def purchase_register(start_date:str,end_date:str):
+    wait_img_path("img_tally/account_book.png")
+    pg.press('p')
+    time.sleep(1)
+    pg.press('enter')
+    wait_img_path("img_tally/list_of.png")
+    pg.hotkey('alt','f2')
+    pg.typewrite(start_date,interval=0.1)
+    time.sleep(1)
+    pg.press('enter')
+    pg.typewrite(end_date,interval=0.1)
+    time.sleep(1)
+    pg.press('enter')
 
-def purchase_vch(start_date, end_date):
-    pg.press("p")
+def format_register(satrt_date:str,end_date:str):
+    pg.hotkey('ctrl','e')
     time.sleep(1)
-    pg.press('enter')
-    time.sleep(1)
-    pg.press('enter')
-    time.sleep(2)
-    pg.hotkey('alt', 'f2')
-    time.sleep(2)
-    pg.typewrite(str(start_date), interval=0.1)
-    time.sleep(1)
-    pg.press('enter')
-    pg.typewrite(str(end_date), interval=0.1)
-    time.sleep(1)
-    pg.hotkey('ctrl', 'a')
+    pg.press('c')
+
 
 open_tally()
 select_comp("20001")
 display_vch()
-purchase_vch(satrt_date=str('01-04-2024'),end_date=str('30-09-2024'))
+purchase_register(start_date='01-04-2024',end_date='14-09-2024')
