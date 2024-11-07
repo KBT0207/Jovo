@@ -6,12 +6,15 @@ from datetime import datetime
 from logging_config import logger
 from crud_database import process_files
 
+pg.FAILSAFE = False
+
+
 logger.info("Starting the automation script")
 
 load_dotenv(".env")
 
 current_date = datetime.now().date()
-start_date = datetime(current_date.year, 4, 1).strftime('%d-%m-%Y')
+start_date = datetime(current_date.year, 11, 7).strftime('%d-%m-%Y')
 today_date = current_date.strftime('%d-%m-%Y')
 
 
@@ -19,7 +22,7 @@ comp_list = ['COMP0003']
 
 def open_busy():
     logger.info(f"Busy Opening....")
-    busy_url = r"D:/UserProfile/Desktop/Busy 21.lnk"
+    busy_url = r"D:\UserProfile\Desktop\Busy 21.lnk"
     pg.hotkey('win', 'r')
     time.sleep(1)
     pg.typewrite(busy_url)
@@ -351,7 +354,7 @@ def stock_transfer():
                     logger.info('StockTransfer Vch Error ')
                     pass
 
-def stock_jornal():
+def stock_journal():
     try:
         stj = pg.locateOnScreen('img/stj_unselected.png',confidence=0.9)
         pg.moveTo(stj)
@@ -402,20 +405,20 @@ def stock_jornal():
                     logger.info('StockJournal Vch Error ')
                     pass
 
-def formate_vch(start_date:str, end_date:str,report_type: str = None):
+def formate_vch(start_date: str, end_date: str, report_type: str = None):
     list_voucher_wait('img/list_of.png')
     time.sleep(1)
-    pg.typewrite('New',interval=0.1)   #Formate Select
-    time.sleep(0.5) 
+    pg.typewrite('New', interval=0.1)  # Formate Select
+    time.sleep(0.5)
     pg.press('enter')
     time.sleep(0.5)
-    pg.typewrite('<<-ALL->>',interval=0.1) #master_series
+    pg.typewrite('<<-ALL->>', interval=0.1)  # master_series
     pg.press('enter')
     time.sleep(0.5)
-    pg.typewrite('<<-ALL->>',interval=0.1) #vch_Series_group_series
+    pg.typewrite('<<-ALL->>', interval=0.1)  # vch_Series_group_series
     pg.press('enter')
     time.sleep(0.5)
-    pg.typewrite("<<-ALL->>",interval=0.1)
+    pg.typewrite("<<-ALL->>", interval=0.1)
     time.sleep(0.5)
     pg.press('enter')
     time.sleep(1)
@@ -426,30 +429,163 @@ def formate_vch(start_date:str, end_date:str,report_type: str = None):
     time.sleep(1)
     pg.press('enter')
     time.sleep(1)
-    pg.typewrite('Name',interval=0.1)
+    pg.typewrite('Name', interval=0.1)
     time.sleep(1)
     pg.press('enter')
-    time.sleep(1)
-    pg.typewrite('Name',interval=0.1)
-    time.sleep(1)
+
+    # Handle report-specific logic
+    if report_type == 'purchase':
+        handle_purchase_report()
+    elif report_type == 'purchase_order':
+        handle_purchase_order_report()
+    elif report_type == 'mrfp':
+        handle_mrfp_report()
+    elif report_type == 'mitp':
+        handle_mitp_report()
+    elif report_type == 'stock_transfer':
+        handle_stock_transfer_report()
+    elif report_type == 'stock_jornal':
+        handle_stock_journal_report()
+
+def handle_purchase_report():
+    time.sleep(0.5)
+    pg.typewrite('Name')
+    time.sleep(0.5)
     pg.press('enter')
-    time.sleep(1)
+    time.sleep(0.5)
     pg.press('y')
-    time.sleep(1)
-    pg.press('enter')  
-    time.sleep(1)
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
     pg.press('y')
-    time.sleep(1)
+    time.sleep(0.5)
     pg.press('enter')
     time.sleep(0.5)
     pg.press('n')
     time.sleep(0.5)
-    pg.press('enter')  
+    pg.press('enter')
     time.sleep(0.5)
     pg.press('n')
-    time.sleep(1)
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
     pg.press('f2')
-                
+
+def handle_purchase_order_report():
+    time.sleep(0.5)
+    pg.typewrite('Name')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('f2')
+
+def handle_mrfp_report():
+    time.sleep(0.5)
+    pg.typewrite('Name')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('f2')
+
+def handle_mitp_report():
+    time.sleep(0.5)
+    pg.typewrite('Name')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('f2')
+
+def handle_stock_transfer_report():
+    time.sleep(0.5)
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('f2')
+
+def handle_stock_journal_report():
+    time.sleep(0.5)
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('y')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    time.sleep(0.5)
+    pg.press('n')
+    time.sleep(0.5)
+    pg.press('enter')
+    pg.press('f2')
+
 def export_data(report:str, comp:str,start_date:str, end_date:str,today_date:str):
     loc = None
     while loc == None:
@@ -535,14 +671,16 @@ def change_company():
         except:
             time.sleep(0.5)
 
-l1 = {'purchase-order': purchase_order, 'purchase': purchase, 'mrfp': mrfp_voucher, 'mitp':mitp_voucher,"stock_transfer":stock_transfer,'stock_jornal':stock_jornal}
+
+
+voucher_list = {'purchase': purchase,'purchase-order': purchase_order,'mrfp': mrfp_voucher, 'mitp':mitp_voucher,"stock-transfer":stock_transfer,'stock-journal':stock_journal}
 
 def main():
     open_busy()
     for i in comp_list:
         company_open(comp=i)
         transaction_tab()
-        for report, method in l1.items():
+        for report, method in voucher_list.items():
             if callable (method):
                 try:
                     method()

@@ -68,7 +68,9 @@ def get_table_name(report_type: str) -> str:
         "purchase": "busy_rm_purchase",
         "purchase-order": "busy_rm_purchase_order",
         'mitp': 'busy_rm_mitp',
-        'mrfp': 'busy_rm_mrfp'
+        'mrfp': 'busy_rm_mrfp',
+        'transfer': "busy_rm_stock_transfer",
+        'jornal': "busy_rm_stock_journal"
     }
     return table_name.get(report_type, "Key not found")
 
@@ -78,7 +80,7 @@ def process_files(root_folder: str):
     for file_path in glob.glob(full_pattern, recursive=True):
         try:
             report_type = get_report_type(file_path)
-            if report_type in ['purchase', 'purchase-order','mrfp','mitp']:
+            if report_type in ['purchase', 'purchase_order','mrfp','mitp','transfer','journal']:
                 logger.info(f"Processing file: {file_path}")
                 df = pd.read_excel(file_path, skiprows=3,skipfooter=1)
                 df = clean_data(df)
@@ -97,13 +99,13 @@ def process_files(root_folder: str):
         except Exception as e:
             logger.error(f"Error processing file {file_path}: {e}")
 
-def delete_table_data(start_date:str , end_date:str,table_name:str):
-    pass
 
 
 
+# process_files(r"D:\UserProfile\Desktop\data")
 
-process_files(r"D:\UserProfile\Desktop\data")
+
+print(get_report_type(r"D:\UserProfile\Desktop\data\busy_export_data\COMP0003\stock_transfer\COMP0003_stock_transfer_07-11-2024 to 07-11-2024 07-11-2024.xlsx"))
 
 
     

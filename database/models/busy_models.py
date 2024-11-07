@@ -6,101 +6,112 @@ class BusyPurchase(TimeStampedModel):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(Date, nullable=False)
-    vch_bill_no = Column(String(50), nullable=False)
-    particulars = Column(String(100), nullable=False)
-    item_details = Column(String(200), nullable=False)
-    material_centre = Column(String(100), nullable=False)
+    vch_bill_no = Column(String(50), nullable=False)  # Added length (50)
+    particulars = Column(String(100), nullable=False)  # Added length (100)
+    item_details = Column(String(200), nullable=False)  # Added length (200)
+    material_centre = Column(String(100), nullable=False)  # Added length (100)
     qty = Column(Float, nullable=False)
-    unit = Column(String(50), nullable=False)
+    unit = Column(String(50), nullable=False)  # Added length (50)
     price = Column(Float, nullable=False)
     amount = Column(Float, nullable=False)
     tax = Column(Float, nullable=False)
     invoice_amt = Column(Float, nullable=False)
-    grn_no = Column(String(50), nullable=False)
-    types = Column(String(50), nullable=False)
-    narration = Column(String(255), nullable=True)
+    grn_no = Column(String(50), nullable=False)  # Added length (50)
+    types = Column(String(50), nullable=False)  # Added length (50)
+    narration = Column(String(255), nullable=True)  # Added length (255)
 
-    def __repr__(self):
-        return (f"<PurchaseRecord(id={self.id}, date={self.date}, vch_bill_no={self.vch_bill_no}, "
-                f"particulars={self.particulars}, item_details={self.item_details}, "
-                f"material_centre={self.material_centre}, qty={self.qty}, unit={self.unit}, "
-                f"price={self.price}, amount={self.amount}, tax={self.tax}, "
-                f"invoice_amt={self.invoice_amt}, grn_no={self.grn_no}, types={self.types}, "
-                f"narration={self.narration})>")
 
 class BusyPurchaseOrder(TimeStampedModel):
     __tablename__ = 'busy_rm_purchase_order'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(Date, nullable=False)
-    vch_bill_no = Column(String(50), nullable=False)
-    particulars = Column(String(100), nullable=False)
-    item_details = Column(String(200), nullable=False)
-    material_centre = Column(String(100), nullable=False)
+    vch_bill_no = Column(String(50), nullable=False)  # Added length (50)
+    particulars = Column(String(100), nullable=False)  # Added length (100)
+    item_details = Column(String(200), nullable=False)  # Added length (200)
+    material_centre = Column(String(100), nullable=False)  # Added length (100)
     qty = Column(Float, nullable=False)
-    unit = Column(String(50), nullable=False)
+    unit = Column(String(50), nullable=False)  # Added length (50)
     price = Column(Float, nullable=False)
     amount = Column(Float, nullable=False)
     gst_amount = Column(Float, nullable=False)
     po_value = Column(Float, nullable=False)
-    requesting_dept = Column(String(100), nullable=False)
-    po_officer = Column(String(100), nullable=False)
+    requesting_dept = Column(String(100), nullable=False)  # Added length (100)
+    po_officer = Column(String(100), nullable=False)  # Added length (100)
 
-    def __repr__(self):
-        return (f"<PurchaseOrder(id={self.id}, date={self.date}, vch_bill_no={self.vch_bill_no}, "
-                f"particulars={self.particulars}, item_details={self.item_details}, "
-                f"material_centre={self.material_centre}, qty={self.qty}, unit={self.unit}, "
-                f"price={self.price}, amount={self.amount}, gst_amount={self.gst_amount}, "
-                f"po_value={self.po_value}, requesting_dept={self.requesting_dept}, "
-                f"po_officer={self.po_officer})>")
 
 class BusyMrfp(TimeStampedModel):
     __tablename__ = 'busy_rm_mrfp'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(Date)
-    vch_bill_no = Column(String(50))
-    particulars = Column(String(255))
-    item_details = Column(String(255))
-    material_centre = Column(String(100))
-    qty = Column(Numeric(10, 2))
-    unit = Column(String(5))
-    batch_no = Column(String(50))
-    narration = Column(String(255))
-    gr_no = Column(String(50))
-    gr_date = Column(Date)
-    price = Column(Numeric(10,2))
-    amount = Column(Numeric(10, 2))
+    vch_bill_no = Column(String(50), nullable=True)  # Added length (50)
+    particulars = Column(String(255), nullable=True)  # Added length (255)
+    item_details = Column(String(255), nullable=True)  # Added length (255)
+    material_centre = Column(String(100), nullable=True)  # Added length (100)
+    qty = Column(Numeric(10, 2), nullable=True)
+    unit = Column(String(5), nullable=True)  # Added length (5)
+    batch_no = Column(String(50), nullable=True)  # Added length (50)
+    narration = Column(String(255), nullable=True)  # Added length (255)
+    gr_no = Column(String(50), nullable=True)  # Added length (50)
+    gr_date = Column(Date, nullable=True)
+    price = Column(Numeric(10, 2), nullable=True)
+    amount = Column(Numeric(10, 2), nullable=True)
 
-    def __repr__(self):
-        return (
-            f"<BusyMrfp(id={self.id}, date={self.date}, vch_bill_no='{self.vch_bill_no}', "
-            f"particulars='{self.particulars}', item_details='{self.item_details}', "
-            f"material_centre='{self.material_centre}', qty={self.qty}, unit='{self.unit}', "
-            f"batch_no='{self.batch_no}', price={self.price}, amount={self.amount})>"
-        )
 
 class BusyMitp(TimeStampedModel):
     __tablename__ = 'busy_rm_mitp'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(Date)
-    vch_bill_no = Column(String(50))
-    particulars = Column(String(255))
-    item_details = Column(String(255))
-    material_centre = Column(String(100))
-    qty = Column(Numeric(10, 2))
-    unit = Column(String(5))
-    batch_no = Column(String(50))
-    price = Column(Numeric(10,2))
-    amount = Column(Numeric(10, 2))
+    vch_bill_no = Column(String(50), nullable=True)  # Added length (50)
+    particulars = Column(String(255), nullable=True)  # Added length (255)
+    item_details = Column(String(255), nullable=True)  # Added length (255)
+    material_centre = Column(String(100), nullable=True)  # Added length (100)
+    qty = Column(Numeric(10, 2), nullable=True)
+    unit = Column(String(5), nullable=True)  # Added length (5)
+    batch_no = Column(String(50), nullable=True)  # Added length (50)
+    price = Column(Numeric(10, 2), nullable=True)
+    amount = Column(Numeric(10, 2), nullable=True)
 
 
-    def __repr__(self):
-        return (
-        f"<BusyMrfp(id={self.id}, date={self.date}, vch_bill_no='{self.vch_bill_no}', "
-        f"particulars='{self.particulars}', item_details='{self.item_details}', "
-        f"material_centre='{self.material_centre}', qty={self.qty}, unit='{self.unit}', "
-        f"batch_no='{self.batch_no}', price={self.price}, amount={self.amount})>"
-        )
+class BusyStockTransfer(TimeStampedModel):
+    __tablename__ = 'busy_rm_stock_transfer'
 
+    id = Column(Integer, primary_key=True, autoincrement=True)  # Added id field for consistency
+    date = Column(String(50), nullable=False)  # Added length (50)
+    vch_bill_no = Column(String(50), nullable=False)  # Added length (50)
+    from_location = Column(String(100), nullable=False)  # Added length (100)
+    to_location = Column(String(100), nullable=False)  # Added length (100)
+    item_details = Column(String(255), nullable=False)  # Added length (255)
+    qty = Column(Float, nullable=False)
+    batch_no = Column(String(50), nullable=False)  # Added length (50)
+    batch_narration = Column(String(255), nullable=True)  # Added length (255)
+    unit = Column(String(5), nullable=False)  # Added length (5)
+    narration = Column(String(255), nullable=True)  # Added length (255)
+    purchase_invoice_no = Column(String(50), nullable=True)  # Added length (50)
+    price = Column(Float, nullable=False)
+    amount = Column(Float, nullable=False)
+
+
+class StockJournal(TimeStampedModel):
+    __tablename__ = 'busy_rm_stock_journal'
+
+    # Define the columns
+    id = Column(Integer, primary_key=True)  # Automatically increments to give each record a unique ID
+    date = Column(Date, nullable=False)
+    vch_bill_no = Column(String(50), nullable=False)  # Added length (50)
+    material_centre = Column(String(100), nullable=True)  # Added length (100)
+    item_details = Column(String(255), nullable=True)  # Added length (255)
+    batch_no = Column(String(50), nullable=True)  # Added length (50)
+    qty_generated = Column(Float, nullable=True)
+    unit_main = Column(String(50), nullable=True)  # Added length (50)
+    price = Column(Float, nullable=True)
+    amount = Column(Float, nullable=True)
+    qty_consumed = Column(Float, nullable=True)
+    unit_consumed = Column(String(50), nullable=True)  # Added length (50)
+    price_consumed = Column(Float, nullable=True)
+    amount_consumed = Column(Float, nullable=True)
+    narration = Column(String(255), nullable=True)  # Added length (255)
+    grn_no = Column(String(50), nullable=True)  # Added length (50)
+    pur_inv_no = Column(String(50), nullable=True)  # Added length (50)
