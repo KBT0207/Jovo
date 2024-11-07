@@ -65,12 +65,12 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
 def get_table_name(report_type: str) -> str:
     table_name = {
-        "purchase": "busy_rm_purchase",
+        "purchase":       "busy_rm_purchase",
         "purchase-order": "busy_rm_purchase_order",
-        'mitp': 'busy_rm_mitp',
-        'mrfp': 'busy_rm_mrfp',
-        'transfer': "busy_rm_stock_transfer",
-        'jornal': "busy_rm_stock_journal"
+        'mitp':           'busy_rm_mitp',
+        'mrfp':           'busy_rm_mrfp',
+        'stock-transfer': "busy_rm_stock_transfer",
+        'stock-journal':  "busy_rm_stock_journal"
     }
     return table_name.get(report_type, "Key not found")
 
@@ -80,7 +80,7 @@ def process_files(root_folder: str):
     for file_path in glob.glob(full_pattern, recursive=True):
         try:
             report_type = get_report_type(file_path)
-            if report_type in ['purchase', 'purchase_order','mrfp','mitp','transfer','journal']:
+            if report_type in ['purchase', 'purchase-order','mrfp','mitp','stock-transfer','stock-journal']:
                 logger.info(f"Processing file: {file_path}")
                 df = pd.read_excel(file_path, skiprows=3,skipfooter=1)
                 df = clean_data(df)
