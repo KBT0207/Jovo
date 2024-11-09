@@ -14,7 +14,7 @@ logger.info("Starting the automation script")
 load_dotenv(".env")
 
 current_date = datetime.now().date()
-start_date = datetime(current_date.year, 6, 7).strftime('%d-%m-%Y')
+start_date = datetime(current_date.year, 4, 1).strftime('%d-%m-%Y')
 today_date = current_date.strftime('%d-%m-%Y')
 
 
@@ -436,15 +436,15 @@ def formate_vch(start_date: str, end_date: str, report_type: str = None):
     # Handle report-specific logic
     if report_type == 'purchase':
         handle_purchase_report()
-    elif report_type == 'purchase_order':
+    elif report_type == 'purchase-order':
         handle_purchase_order_report()
     elif report_type == 'mrfp':
         handle_mrfp_report()
     elif report_type == 'mitp':
         handle_mitp_report()
-    elif report_type == 'stock_transfer':
+    elif report_type == 'stock-transfer':
         handle_stock_transfer_report()
-    elif report_type == 'stock_jornal':
+    elif report_type == 'stock-journal':
         handle_stock_journal_report()
 
 def handle_purchase_report():
@@ -592,10 +592,11 @@ def export_data(report:str, comp:str,start_date:str, end_date:str,today_date:str
     while loc == None:
         try:
             loc = pg.locateOnScreen('img/data_complete100%.png',confidence=0.9)
+            time.sleep(1)
+            pg.hotkey('alt','e')
+            time.sleep(1)
         except:
             time.sleep(1)
-
-    pg.hotkey('alt','e')
 
     export_data = None
     while export_data == None:
@@ -691,7 +692,7 @@ def main():
                     print(f"Error processing {report} for company {i}: {e}")
                     continue
         change_company()
-    process_files(r"D:\UserProfile\Desktop\data")
+    # process_files(r"D:\UserProfile\Desktop\data")
         
 main()
 
